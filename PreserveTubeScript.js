@@ -253,9 +253,10 @@ source.getChannel = function(url) {
     // Check if verified
     const isVerified = html.includes('verified') || html.includes('checkmark');
 
-    // Build URL alternatives including YouTube channel URL
+    // Build YouTube channel URL as main, PreserveTube as alternate
     const youtubeChannelUrl = buildYouTubeChannelUrl(channelId);
-    const urlAlternatives = youtubeChannelUrl ? [youtubeChannelUrl] : [];
+    const mainUrl = youtubeChannelUrl || channelUrl;
+    const urlAlternatives = youtubeChannelUrl ? [channelUrl] : [];
 
     const channel = new PlatformChannel({
         id: createPlatformID(channelId),
@@ -264,7 +265,7 @@ source.getChannel = function(url) {
         banner: "",
         subscribers: -1,
         description: `Archived videos from ${channelName} on PreserveTube`,
-        url: channelUrl,
+        url: mainUrl,
         urlAlternatives: urlAlternatives,
         links: {}
     });
